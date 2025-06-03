@@ -37,7 +37,7 @@ export async function drawHeatmap(csvFile) {
   const searchInput = d3.select("#characterSearch");
   const searchButton = d3.select("#characterSearchButton");
 
-  const size = 1000;
+  const size = 1200;
   const margin = {top: 10, right: 10, bottom: 100, left: 100};
   const svg = d3.select("#heatmap")
     .attr("width", size)
@@ -210,7 +210,7 @@ export async function drawHeatmap(csvFile) {
     xAxisG.selectAll("text")
       .attr("transform", "rotate(-45)")
       .style("text-anchor", "end")
-      .style("font-size", "10px")
+      .style("font-size", "8px")
       .style("fill", d => {
         const role = filtered.find(c => c.name === d)?.role;
         if (role === "protagonist") return "blue";
@@ -223,7 +223,7 @@ export async function drawHeatmap(csvFile) {
       .call(d3.axisLeft(y));
 
     yAxisG.selectAll("text")
-      .style("font-size", "10px")
+      .style("font-size", "8px")
       .style("fill", d => {
         const role = filtered.find(c => c.name === d)?.role;
         if (role === "protagonist") return "blue";
