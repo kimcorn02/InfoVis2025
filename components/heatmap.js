@@ -28,7 +28,6 @@ export async function drawHeatmap(csvFile) {
   const roles = ["all", ...Array.from(new Set(rawData.map(d => d.role)))];
   const genres = ["all", ...Array.from(new Set(rawData.map(d => d.genre)))];
 
-  // 필터 select 박스
   const roleSelect = d3.select("#heatRoleFilter");
   roles.forEach(r => roleSelect.append("option").attr("value", r).text(r));
   const genreSelect = d3.select("#heatGenreFilter");
@@ -55,7 +54,7 @@ export async function drawHeatmap(csvFile) {
       g.attr("transform", event.transform);
     });
 
-  svg.call(zoom); // svg에 zoom behavior 연결
+  svg.call(zoom);
 
   var tooltip = d3.select("body") 
     .append("div")
@@ -70,7 +69,6 @@ export async function drawHeatmap(csvFile) {
     .style("pointer-events", "none");
 
   function update(selectedRole, selectedGenre, searchText = "") {
-    // 필터링
     let filtered = rawData;
     if (selectedRole !== "all") filtered = filtered.filter(d => d.role === selectedRole);
     if (selectedGenre !== "all") filtered = filtered.filter(d => d.genre === selectedGenre);
@@ -81,11 +79,8 @@ export async function drawHeatmap(csvFile) {
         return (roleOrder[a.role] ?? 99) - (roleOrder[b.role] ?? 99);
       });
     }
-
-    // 전체 캐릭터 유지
     const characters = filtered.map(d => d.name);
 
-    // 검색어로 하이라이트할 캐릭터만 따로 추림
     const lowerSearch = searchText.toLowerCase();
     const highlightedChars = characters.filter(name => name.toLowerCase().includes(lowerSearch));
 
@@ -110,7 +105,6 @@ export async function drawHeatmap(csvFile) {
         .extent([[0, 0], [heatmapWidth + margin.left + margin.right, heatmapHeight + margin.top + margin.bottom]])
     );
 
-    // similarity matrix 생성
     const matrix = characters.map((charA, i) =>
       characters.map((charB, j) => {
         if (i === j) return 1;
@@ -202,7 +196,6 @@ export async function drawHeatmap(csvFile) {
           .text(`${characters[d.y]} vs ${characters[d.x]}`);
       });
     
-      // x축 라벨
     const xAxisG = gMain.append("g")
       .attr("transform", `translate(0, ${cellSize * characters.length})`)
       .call(d3.axisBottom(x));
@@ -218,7 +211,6 @@ export async function drawHeatmap(csvFile) {
         return "black";
       });
 
-    // y축 라벨
     const yAxisG = gMain.append("g")
       .call(d3.axisLeft(y));
 
@@ -232,8 +224,6 @@ export async function drawHeatmap(csvFile) {
       });
   }
 
-
-  // 초기 렌더링 (all)
   update("all", "all", "");
 
   searchButton.on("click", () => {
@@ -241,7 +231,6 @@ export async function drawHeatmap(csvFile) {
     update(roleSelect.node().value, genreSelect.node().value, searchText);
   });
 
-  // 이벤트 리스너 연결
   roleSelect.on("change", () => {
     const searchText = searchInput.property("value").trim();
     update(roleSelect.node().value, genreSelect.node().value, searchText);

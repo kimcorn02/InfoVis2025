@@ -6,16 +6,13 @@ let divergingBarData = [];
 export async function initDivergingBar(csvFile) {
   globalData = await d3.csv(csvFile);
 
-  // value_list 파싱 후 0번째 값 추출
   globalData.forEach(d => {
     d.value_list_parsed = JSON.parse(d.value_list.replace(/'/g, '"'));
     d.topValue = d.value_list_parsed[0];
   });
 
-  // createGenreDropdown();
-  drawDivergingBarChart();  // 초기 전체 차트
+  drawDivergingBarChart();
 
-  // 복사 버튼 이벤트 등록 (한 번만)
   const copyBtn = document.getElementById("copy");
   if (copyBtn) {
     copyBtn.addEventListener("click", copyDivergingBarChartData);
@@ -26,7 +23,7 @@ function drawDivergingBarChart(selectedGenres = [], selectedRole = "all") {
   let filteredData = globalData;
 
   if (selectedGenres.length === 0) {
-    filteredData = [];  // 선택된 장르가 없으면 빈 데이터로
+    filteredData = [];
   } else {
     filteredData = filteredData.filter(d => selectedGenres.includes(d.genre));
   }
@@ -35,9 +32,7 @@ function drawDivergingBarChart(selectedGenres = [], selectedRole = "all") {
     filteredData = filteredData.filter(d => d.role === selectedRole);
   }
 
-  // 역할 필터링
   const roles = ["protagonist", "antagonist"];
-
   const allValues = Array.from(new Set(filteredData.map(d => d.topValue)));
 
   const counts = {};
@@ -67,10 +62,8 @@ function drawDivergingBarChart(selectedGenres = [], selectedRole = "all") {
 
   divergingBarData = data;
 
-  // 나머지는 그대로
   const margin = { top: 30, right: 60, bottom: 30, left: 150 };
   const width = 1000
-  const barHeight = 25;
   const height = 300
 
   const extent = d3.extent(data, d => d.value);

@@ -22,12 +22,6 @@ export async function drawBarChart(csvFile) {
     roleSelect.append("option").attr("value", r).text(r);
   });
 
-  // genre select 박스 옵션 넣기
-  // const genreSelect = d3.select("#barGenreFilter");
-  // genreSelect.append("option").attr("value", "all").text("All Genres");
-  // genres.forEach(g => {
-  //   genreSelect.append("option").attr("value", g).text(g);
-  // });
   const genreCheckboxContainer = d3.select("#barGenreCheckboxes");
 
   const selectAllLabel = genreCheckboxContainer.insert("label", ":first-child")
@@ -107,7 +101,6 @@ export async function drawBarChart(csvFile) {
   const y = d3.scaleLinear()
     .range([chartHeight, 0]);
 
-  // 툴팁 생성
   const tooltip = d3.select("body").append("div")
     .attr("class", "tooltip")
     .style("opacity", 0)
@@ -118,7 +111,6 @@ export async function drawBarChart(csvFile) {
     .style("font-size", "12px")
     .style("pointer-events", "none");
 
-  // x축, y축 그룹 생성 (한 번만)
   const xAxisGroup = g.append("g")
     .attr("transform", `translate(0,${chartHeight})`);
 
@@ -126,13 +118,11 @@ export async function drawBarChart(csvFile) {
 
   function update(selectedRole, selectedGenres) {
     if (selectedGenres.length === 0) {
-      // movieDiv 초기화 및 안내 문구
       const movieDiv = d3.select("#genreMovie");
       movieDiv.html("");
       movieDiv.append("p")
         .html(`No movies in selected category`);
 
-      // 차트도 빈 상태로 초기화
       x.domain(allCategories);
       y.domain([0, 1]);
 
@@ -147,7 +137,7 @@ export async function drawBarChart(csvFile) {
 
       drawDivergingBarChart([], selectedRole);
 
-      return;  // 더 이상 진행하지 않음
+      return;
     }
 
     const filtered = rawData.filter(d => {
@@ -157,7 +147,7 @@ export async function drawBarChart(csvFile) {
     });
 
     const movieTitles = Array.from(new Set(
-          filtered.map(d => d.movie_name).filter(Boolean)  // movie 필드 존재 시만
+          filtered.map(d => d.movie_name).filter(Boolean)  // movie 필드 존재 시
         ));
     
         const movieDiv = d3.select("#genreMovie");
@@ -219,13 +209,6 @@ export async function drawBarChart(csvFile) {
                 infoBox.append("li").text(`${emoji} ${char.name} (${char.role})`);
               });
 
-              // charList.selectAll("li")
-              //   .data(characters)
-              //   .enter()
-                
-              //   .append("li")
-              //   .text(d => `${d.name} (${d.role})`);
-
               li.on("click", function () {
                 const currentDisplay = infoBox.style("display");
                 const isHidden = currentDisplay === "none";
@@ -235,7 +218,6 @@ export async function drawBarChart(csvFile) {
             });
         }
 
-    // 모든 카테고리 및 선택된 장르 기준으로 초기화
     const counts = {};
     allCategories.forEach(cat => {
         counts[cat] = {};
@@ -244,7 +226,6 @@ export async function drawBarChart(csvFile) {
         });
     });
 
-    // filtered 데이터를 순회하며 카운트 누적
     filtered.forEach(d => {
         const cat = d.value_list[0];
         const g = d.genre;
@@ -253,7 +234,6 @@ export async function drawBarChart(csvFile) {
         }
     });
 
-    // D3 stack에 맞는 배열 형태로 변환
     const stackedData = allCategories.map(cat => {
         const obj = { category: cat };
         selectedGenres.forEach(g => {
@@ -262,14 +242,12 @@ export async function drawBarChart(csvFile) {
         return obj;
     });
 
-    // d3.stack 생성자에 키로 장르 목록 넘김
     const stackGen = d3.stack()
         .keys(selectedGenres);
 
     const series = stackGen(stackedData);
 
     x.domain(allCategories);
-    // y 도메인은 stacked 합계 중 최대값으로 설정
     const maxY = d3.max(stackedData, d => {
         let sum = 0;
         selectedGenres.forEach(g => sum += d[g]);
@@ -284,7 +262,6 @@ export async function drawBarChart(csvFile) {
 
     yAxisGroup.transition().duration(500).call(d3.axisLeft(y));
 
-    // 그룹별 bar 레이어 묶기
     const groups = g.selectAll("g.layer")
         .data(series, d => d.key);
 
@@ -296,7 +273,6 @@ export async function drawBarChart(csvFile) {
 
     const groupsMerge = groupsEnter.merge(groups);
 
-    // rect 바인딩
     const rects = groupsMerge.selectAll("rect")
         .data(d => d, d => d.data.category);
 
@@ -343,17 +319,14 @@ export async function drawBarChart(csvFile) {
     drawDivergingBarChart(selectedGenres, selectedRole)
     }
 
-  // 최초 렌더링
   update("all", genres);
 
-  // 이벤트 리스너
   roleSelect.on("change", () => {
     update(roleSelect.node().value, getSelectedGenres());
   });
 
-  // 개별 체크박스가 변경될 때마다 전체선택 체크박스 상태 업데이트
   genreCheckboxContainer.selectAll("input[type=checkbox]")
-    .filter(function() { return this.id !== "selectAllGenres"; })  // 전체선택 제외
+    .filter(function() { return this.id !== "selectAllGenres"; })
     .on("change", () => {
       const total = genreCheckboxContainer.selectAll("input[type=checkbox]").size() - 1; // 전체선택 제외
       const checkedCount = genreCheckboxContainer.selectAll("input[type=checkbox]:checked").size() - 1;
@@ -370,5 +343,4 @@ export async function drawBarChart(csvFile) {
 
 }
 
-// 자동 실행
 drawBarChart("https://raw.githubusercontent.com/kimcorn02/InfoVis2025/refs/heads/main/data.csv");
