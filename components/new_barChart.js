@@ -1,6 +1,6 @@
 import { initDivergingBar, drawDivergingBarChart } from './divergingBar.js';
 
-await initDivergingBar("data.csv");
+await initDivergingBar("https://raw.githubusercontent.com/kimcorn02/InfoVis2025/refs/heads/main/data.csv");
 
 export async function drawBarChart(csvFile) {
   const rawData = await d3.csv(csvFile);
@@ -371,4 +371,4 @@ export async function drawBarChart(csvFile) {
 }
 
 // 자동 실행
-drawBarChart("data.csv");
+drawBarChart("https://raw.githubusercontent.com/kimcorn02/InfoVis2025/refs/heads/main/data.csv");

@@ -73,8 +73,9 @@ function drawDivergingBarChart(selectedGenres = [], selectedRole = "all") {
   const barHeight = 25;
   const height = 300
 
+  const extent = d3.extent(data, d => d.value);
   const x = d3.scaleLinear()
-    .domain(d3.extent(data, d => d.value))
+    .domain(extent[0] !== undefined ? extent : [-1, 1])
     .range([margin.left, width - margin.right]);
 
   const y = d3.scaleBand()

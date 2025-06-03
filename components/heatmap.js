@@ -254,4 +254,4 @@ export async function drawHeatmap(csvFile) {
 
 }
 
-drawHeatmap("data.csv");
+drawHeatmap("https://raw.githubusercontent.com/kimcorn02/InfoVis2025/refs/heads/main/data.csv");
