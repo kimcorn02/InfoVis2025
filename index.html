@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+
+<head>
+  <meta charset="utf-8">
+  <link href="style.css" rel="stylesheet">
+</head>
+
+<body>
+  <!-- page title -->
+  <div class="flex-row items-center justify-between">
+    <div class="text-3xl font-bold mx-10">
+      IMSDb Character Value Information
+    </div>
+    <div class="flex-col text-base text-right mx-10">
+      <div>2025-1 InfoVis</div>
+      <div>2025712431 김지원</div>
+    </div>
+  </div>
+  
+  <hr class="my-20 border-t border-gray-300 w-full"/>
+  
+  <!-- barchart & divergingBarchart -->
+  <div class="flex-col">
+    <div class="flex-row items-center">
+      <div class="text-lg font-semibold">Role : </div>
+      <select id="barRoleFilter" class="m-6 px py text-base"></select>
+    </div>
+    <div class="flex-row items-center">
+      <div class="text-lg font-semibold">Genre : </div>
+      <div id="barGenreCheckboxes" class="m-6"></div>
+    </div>    
+
+    <div class="flex-row items-center justify-center gap-10 my-10">
+      <svg id="barChart" width="600" height="350"></svg>
+      <div class="flex-col items-center">
+        <svg id="divergingBar" width="600" height="300"></svg>
+        <button id="copy" class="button">Copy values</button>
+      </div>
+      <div id="genreMovie" class="max-w-200 max-h-300 overflow-y-auto"></div>
+    </div>
+    
+    <!-- heatmap -->
+    <hr class="my-20 border-t border-gray-300 w-full"/>
+    <div class="flex-col">
+      <!-- heatmap select -->
+      <div class="flex-row gap-30 my-10">
+        <div class="flex-row items-center gap-10">
+          <div class="text-lg font-semibold">Role : </div>
+          <select id="heatRoleFilter"></select>
+        </div>
+        <div class="flex-row items-center gap-10">
+          <div class="text-lg font-semibold">Genre : </div>
+          <select id="heatGenreFilter"></select>
+        </div>
+        <div class="flex-row items-center gap-10">
+          <div class="text-lg font-semibold">Search : </div>
+          <input id="characterSearch" placeholder="Search character...">
+          <button id="characterSearchButton">Search</button>
+        </div>        
+      </div>
+      
+      <!-- heatmap -->
+      <div class="flex-row">
+        <svg id="heatmap"></svg>
+        <div class="flex-col mx-30">
+          <div class="text-lg font-semibold">
+            Detailed Comparison Between Selected Characters
+          </div>
+          <div id="charInfo"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script src="components/new_barChart.js" type="module"></script>
+  <script src="components/heatmap.js" type="module"></script>
+  <script src="components/divergingBar.js" type="module"></script>
+
+</body>

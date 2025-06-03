@@ -1,0 +1,157 @@
+/* flex */
+.flex-col {
+    display: flex;
+    flex-direction: column;
+}
+
+.flex-row {
+    display: flex;
+    flex-direction: row;
+}
+
+.items-center {
+    align-items: center;
+}
+
+.justify-between {
+    justify-content: space-between;
+}
+
+.justify-center {
+    justify-content: center;
+}
+
+.justify-around {
+    justify-content: space-around;
+}
+
+.gap-10 {
+    gap: 10px;
+}
+
+.gap-30 {
+    gap: 30px;
+}
+
+/* font size */
+.text-base {
+    font-size: 1rem;
+    line-height: calc(1.5 / 1);
+}
+
+.text-lg {
+    font-size: 1.125rem; /* 1.125rem (18px) */ 
+    line-height: calc(1.75 / 1.125); /* calc(1.75 / 1.125) */
+}
+
+.text-3xl {
+    font-size: 1.875rem; /* 1.875rem (30px) */ 
+    line-height: calc(2.25 / 1.875); /* calc(2.25 / 1.875) */
+}
+
+/* font weight */
+.font-semibold {
+    font-weight: 600;
+}
+
+.font-bold {
+    font-weight: 700;
+}
+
+/* font align */
+.text-right {
+    text-align: right;
+}
+
+/* margin */
+.m-4 {
+    margin: 4px;
+}
+
+.m-6 {
+    margin: 6px;
+}
+
+.mx-10 {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.mx-30 {
+    margin-left: 50px;
+    margin-right: 50px;
+}
+
+.my-10 {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.my-20 {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.mt-40 {
+    margin-top: 40px;
+}
+
+/* padding */
+.px {
+    padding-right : 0.5px;
+    padding-left : 0.5px;
+}
+
+.py {
+    padding-top: 1px;
+    padding-bottom: 1px;
+}
+
+/* height */
+.h-1 {
+    height: 1px;
+}
+
+.max-h-300 {
+    max-height: 300px;
+}
+
+/* width */
+.w-full {
+    width: 100%;
+}
+
+.max-w-200 {
+    max-width: 400px;
+}
+
+/* border */
+.border-t {
+    border-top: 1px;
+}
+
+.border-gray-300 {
+    border-color: oklch(87.2% 0.01 258.338);
+}
+
+/* scroll */
+.overflow-y-auto {
+    overflow-y: auto;
+}
+
+.button {
+    width: 200px;
+    background-color: #3b82f6;
+    color: white;
+    font-weight: 600;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.2s ease;
+}
+
+.button:hover {
+    background-color: #2563eb;
+}
